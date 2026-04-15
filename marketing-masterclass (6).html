@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marketing Masterclass — The Inroad Project</title>
+<style>
+  /* =============================================
+     MARKETING MASTERCLASS — COURSE PAGE
+     The Inroad Project
+     
+     HOW TO UPDATE VIDEOS:
+     Search for "driveId:" and replace the value
+     with the Google Drive file ID for that video.
+     
+     HOW TO UPDATE DOWNLOADS:
+     Search for "url:'#'" and replace with the
+     full Google Drive share link for that file.
+     ============================================= */
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #1a2e4a;
+    --navy-dark: #0f1e30;
+    --navy-mid: #243a57;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --gold-pale: #f5ecd0;
+    --cream: #faf6ee;
+    --cream-dark: #f0e8d4;
+    --text-on-navy: #f5ecd0;
+    --text-on-navy-muted: rgba(245, 236, 208, 0.65);
+    --sidebar-w: 272px;
+  }
+
+  body {
+    font-family: Georgia, serif;
+    background: var(--cream);
+    color: var(--navy);
+    margin: 0;
+  }
+
+  /* --- HEADER --- */
+  .page-header {
+    background: var(--navy);
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 3px solid var(--gold);
+  }
+  .header-logo {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: var(--text-on-navy-muted);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    border-right: 1px solid rgba(201,168,76,.3);
+    padding-right: 14px;
+    white-space: nowrap;
+  }
+  .header-title {
+    font-family: Georgia, serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--gold-light);
+    letter-spacing: .04em;
+  }
+  .header-sub {
+    font-size: 11px;
+    color: var(--text-on-navy-muted);
+    font-family: Arial, sans-serif;
+    margin-top: 3px;
+    letter-spacing: .02em;
+  }
+  .header-sub span {
+    color: var(--gold);
+    margin: 0 6px;
+    font-size: 10px;
+  }
+
+  /* --- LAYOUT --- */
+  .course-wrap {
+    display: flex;
+    min-height: calc(100vh - 65px);
+  }
+
+  /* --- SIDEBAR --- */
+  .sidebar {
+    width: var(--sidebar-w);
+    min-width: var(--sidebar-w);
+    background: var(--navy);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    max-height: calc(100vh - 65px);
+    position: sticky;
+    top: 0;
+  }
+  .sidebar-inner-label {
+    padding: 16px 16px 8px;
+    font-size: 10px;
+    color: var(--text-on-navy-muted);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    font-family: Arial, sans-serif;
+  }
+  .module-block {
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .module-btn {
+    width: 100%;
+    padding: 11px 16px;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .module-btn:hover { background: var(--navy-mid); }
+  .module-btn.active { background: var(--navy-mid); }
+  .module-num {
+    font-size: 10px;
+    color: var(--gold);
+    font-family: Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: 2px;
+  }
+  .module-label {
+    font-size: 13px;
+    color: var(--text-on-navy);
+    font-family: Arial, sans-serif;
+    line-height: 1.35;
+  }
+  .module-chevron {
+    font-size: 10px;
+    color: var(--gold);
+    transition: transform .2s;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+  .module-chevron.open { transform: rotate(90deg); }
+  .video-list {
+    display: none;
+    background: rgba(0,0,0,.2);
+  }
+  .video-list.open { display: block; }
+  .video-btn {
+    width: 100%;
+    padding: 9px 16px 9px 28px;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--text-on-navy-muted);
+    border-bottom: 1px solid rgba(255,255,255,.04);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.4;
+    font-family: Arial, sans-serif;
+  }
+  .video-btn:last-child { border-bottom: none; }
+  .video-btn:hover { background: rgba(201,168,76,.1); color: var(--text-on-navy); }
+  .video-btn.active { background: rgba(201,168,76,.15); color: var(--gold-light); }
+  .video-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(201,168,76,.3);
+    flex-shrink: 0;
+  }
+  .video-btn.active .video-dot { background: var(--gold); }
+
+  /* --- ALL DOWNLOADS BUTTON --- */
+  .all-dl-btn {
+    display: block;
+    margin: 14px 16px 16px;
+    padding: 10px 14px;
+    background: var(--gold);
+    border: none;
+    border-radius: 4px;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--navy-dark);
+    cursor: pointer;
+    text-align: center;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    transition: background .15s;
+  }
+  .all-dl-btn:hover { background: var(--gold-light); }
+  .all-dl-btn.active { background: var(--gold-light); }
+
+  /* --- MOBILE TOGGLE --- */
+  .mob-toggle {
+    display: none;
+    width: 100%;
+    padding: 13px 16px;
+    background: var(--navy);
+    border: none;
+    border-bottom: 2px solid var(--gold);
+    color: var(--gold-light);
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    text-align: left;
+    cursor: pointer;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* --- MAIN CONTENT --- */
+  .main {
+    flex: 1;
+    min-width: 0;
+    padding: 28px 32px;
+    background: var(--cream);
+  }
+  .video-title {
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--navy);
+    margin-bottom: 4px;
+    font-family: Georgia, serif;
+  }
+  .video-meta {
+    font-size: 12px;
+    color: #7a6a4a;
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+  .video-embed {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    border: 2px solid var(--gold);
+    position: relative;
+  }
+  .video-embed iframe {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    width: 100%;
+    height: calc(100% + 80px);
+    border: none;
+    display: block;
+  }
+  .video-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-on-navy-muted);
+    font-size: 13px;
+    font-family: Arial, sans-serif;
+  }
+
+  /* --- DOWNLOADS --- */
+  .downloads-section {
+    background: #fff;
+    border: 1px solid var(--cream-dark);
+    border-radius: 6px;
+    padding: 20px;
+    border-top: 3px solid var(--gold);
+  }
+  .downloads-heading {
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 6px;
+    color: var(--navy);
+    font-family: Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+  }
+  .downloads-sub {
+    font-size: 12px;
+    color: #7a6a4a;
+    font-family: Arial, sans-serif;
+    margin-bottom: 16px;
+  }
+  .module-group-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--gold);
+    font-family: Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin: 18px 0 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--cream-dark);
+  }
+  .module-group-label:first-child { margin-top: 0; }
+  .download-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--cream-dark);
+    background: var(--cream);
+    margin-bottom: 8px;
+    text-decoration: none;
+    color: var(--navy);
+    transition: border-color .15s;
+  }
+  .download-item:hover { border-color: var(--gold); }
+  .dl-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+    font-family: Arial, sans-serif;
+    letter-spacing: .04em;
+  }
+  .icon-pdf  { background: #f5eaea; color: #7a2020; }
+  .icon-xlsx { background: #eaf5ea; color: #1f6e2e; }
+  .icon-docx { background: #eaf0f8; color: #1a3a6e; }
+  .icon-html { background: #fef5e0; color: #7a4f0a; }
+  .icon-link { background: #e8f0fe; color: #1a4a8a; }
+  .dl-name {
+    font-size: 13px;
+    flex: 1;
+    font-family: Arial, sans-serif;
+    color: var(--navy);
+  }
+  .dl-btn {
+    font-size: 11px;
+    padding: 5px 12px;
+    border-radius: 4px;
+    background: none;
+    border: 1px solid var(--gold);
+    color: var(--navy);
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: Arial, sans-serif;
+  }
+  .dl-btn:hover { background: var(--gold-pale); }
+
+  /* --- MOBILE --- */
+  @media (max-width: 680px) {
+    .course-wrap { flex-direction: column; }
+    .sidebar {
+      width: 100%;
+      min-width: 0;
+      max-height: none;
+      position: static;
+      border-bottom: 2px solid var(--gold);
+    }
+    .mob-toggle { display: flex; }
+    #sidebarInner { display: none; }
+    #sidebarInner.open { display: block; }
+    .main { padding: 20px 16px; }
+    .sidebar-inner-label { display: none; }
+    .header-sub { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<div class="page-header">
+  <div>
+    <div class="header-logo">The Inroad Project</div>
+  </div>
+  <div>
+    <div class="header-title">Marketing Masterclass</div>
+    <div class="header-sub">
+      6 Modules<span>|</span>16 Videos<span>|</span>12 Case Studies<span>|</span>Full Downloadable Resource Kit
+    </div>
+  </div>
+</div>
+
+<!-- ===================== LAYOUT ===================== -->
+<div class="course-wrap">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <button class="mob-toggle" id="mobToggle">
+      <span>Course modules</span>
+      <span id="mobArrow">&#9662;</span>
+    </button>
+    <div id="sidebarInner">
+      <div class="sidebar-inner-label">Course modules</div>
+      <div id="moduleList"></div>
+      <button class="all-dl-btn" id="allDlBtn">
+        All downloadables
+      </button>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+    <div class="video-title" id="vidTitle">Welcome to the Marketing Masterclass</div>
+    <div class="video-meta" id="vidMeta">Introduction</div>
+    <div class="video-embed" id="videoEmbed">
+      <div class="video-placeholder" id="vidPlaceholder">Loading video&hellip;</div>
+      <div id="vidFrame"></div>
+    </div>
+    <div class="downloads-section" id="dlSection" style="display:none">
+      <div class="downloads-heading" id="dlHeading">Downloads for this lesson</div>
+      <div class="downloads-sub" id="dlSub" style="display:none"></div>
+      <div id="dlList"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== SCRIPT ===================== -->
+<script>
+
+  /* -------------------------------------------------------
+     COURSE DATA
+     - driveId: the Google Drive file ID for each video
+     - url: the shareable Google Drive link for each download
+             Replace '#' with the actual link when ready
+     ------------------------------------------------------- */
+
+  document.addEventListener('DOMContentLoaded', function() {
+
+  const modules = [
+    { num:'Module 1', title:'Mindset & Expectations', videos:[
+      { title:'Introduction', driveId:'1kucuA574COiUxLrDxRltcMwYxMVttlLN', downloads:[] },
+      { title:'What Book Marketing Actually Is', driveId:'1eq9g9-zX9xVH7DkO5f0oFBDkNnHCfIft', downloads:[] },
+      { title:'Scams and Pitfalls to Avoid', driveId:'1S9ZGeZCvEbfDvC4m-QwqY9AmcRRBHE03', downloads:[] }
+    ]},
+    { num:'Module 2', title:'Your Marketing Foundation', videos:[
+      { title:'Your Unique Selling Proposition', driveId:'1TGdRAuLLEm74U4WehZhcw7HVZMFgiVDE', downloads:[
+        { name:'Create Your Elevator Pitch Guide', type:'pdf', url:'https://drive.google.com/uc?export=download&id=12JgQjnqpVWurWY62bN5BDdzpK4y0jFC2' }
+      ]},
+      { title:'Building Your Press Kit', driveId:'1TquWiVHHeVs-fUgEiKSUCDbatkOnACB8', downloads:[
+        { name:'Press Kit Sample', type:'pdf', url:'https://drive.google.com/uc?export=download&id=1ueOUeg-9unNVS_MPK8Q4p1CSYpbGN3Yu' },
+        { name:'Press Kit Word File', type:'docx', url:'https://drive.google.com/uc?export=download&id=1YTxqr3sv_CLqm8bMeAkT15GslYR1lavX' }
+      ]},
+      { title:'Your Sell Sheet & Sales Tools', driveId:'1I7Z9WD0Kxm0nAsHYeZleoXuq0aVhfmau', downloads:[
+        { name:'Sell Sheet Sample', type:'pdf', url:'https://drive.google.com/uc?export=download&id=1dXYme7bHUUdbs3ootFZ3wUhEdUOt59aO' },
+        { name:'Sell Sheet Word File', type:'docx', url:'https://drive.google.com/uc?export=download&id=1DYTXK4yO_kRirmTGcrKd8ATKOh2Pwnx0' },
+        { name:'Profit Calculator', type:'link', url:'https://theinroad.org/calculator/' }
+      ]}
+    ]},
+    { num:'Module 3', title:'Pre-Launch & Launch', videos:[
+      { title:'Building a Launch Team & Hacking the Algorithm', driveId:'1oRFSvWSN2gLTzojJlYIykmpjZINZZGv4', downloads:[
+        { name:'Back Cover / Book Description Guide', type:'pdf', url:'https://drive.google.com/uc?export=download&id=1CpEhsJi1aZSMq_7NXmjy8Ho7PssnScDv' }
+      ]},
+      { title:'Endorsements and Networking', driveId:'1Zim4AXyUu-48Zsy9YOhQzxdANPu_xPoP', downloads:[
+        { name:'Endorsement Request Template', type:'docx', url:'https://drive.google.com/uc?export=download&id=1V1qvao2Q3Qldikiz_aI37gS3gtNxNUAS' }
+      ]},
+      { title:'Mockups, Trailers, and Graphics', driveId:'1wCBIP1bXhW28xUXQpP-RkYskburh4NJ2', downloads:[
+        { name:'What to Post and When', type:'pdf', url:'https://drive.google.com/uc?export=download&id=1BYEXdK_s7wIE36RIBB56vrGJR32RVCKZ' }
+      ]}
+    ]},
+    { num:'Module 4', title:'Publicity & Media', videos:[
+      { title:'DIY Publicity', driveId:'1DpOgZyaJs6CKC4vkvhmxmIZwlZjfaisZ', downloads:[
+        { name:'Press Release Template', type:'docx', url:'https://drive.google.com/uc?export=download&id=1xAgUJEU6JN8qkmqNLQsMTs0OqhOMowM1' },
+        { name:'Media Request Letter', type:'docx', url:'https://drive.google.com/uc?export=download&id=149N8Cszjk_HxbBbM1MzLxEUKG8dTK4Xu' },
+        { name:'Book Promotion Sites', type:'pdf', url:'https://drive.google.com/uc?export=download&id=18g3aZAm-jBW7jTLHSxJMqyRWMQHJpUkA' }
+      ]},
+      { title:'Hiring Help on a Budget', driveId:'16aRjz9IAAn6oY_UNJ6Tcufu8vRIxIZpg', downloads:[
+        { name:'Virtual Assistant Hiring Letter', type:'docx', url:'https://drive.google.com/uc?export=download&id=111RS5-VQq_i4bObFrZVAZaZbOX0FEmvm' }
+      ]}
+    ]},
+    { num:'Module 5', title:'Selling in the Real World', videos:[
+      { title:'Grassroots & Local Marketing', driveId:'1EmkXOcRGBXly9SWsCCqmo9WEn1KCvxpx', downloads:[
+        { name:'Bookstore Directory', type:'xlsx', url:'https://drive.google.com/uc?export=download&id=19Kr3uKlpQRGg0xx6zJ16D1fKZ74cG5o5' },
+        { name:'Church Directory', type:'xlsx', url:'https://drive.google.com/uc?export=download&id=1hliyk-8xjOhjKXmaYojxAZ1qwpQaKluv' }
+      ]},
+      { title:'Speaking & Events', driveId:'1WZrnLrmtY9_7ZzlWFflHHLLHEm-57PXx', downloads:[
+        { name:'Speaking Engagement Tracker', type:'xlsx', url:'https://drive.google.com/uc?export=download&id=1RjEZgDP47kuHTraWI27hNXrkSFjBJZSg' }
+      ]},
+      { title:'Outside the Box', driveId:'1ZAiTwz2LJQ65wfJGMIjAiN2MZ4EkDNV2', downloads:[] }
+    ]},
+    { num:'Module 6', title:'The Long Game', videos:[
+      { title:'Evergreen Marketing & Thought Leadership', driveId:'1S5fyviV2eVgRSiMBXAudy8gM0F3vZZ6F', downloads:[] },
+      { title:'Planning & Next Steps', driveId:'1PfLaa4vexqzxkQgN3i_V6S66dS6HS8I5', downloads:[
+        { name:'Book Launch Timeline Checklist', type:'pdf', url:'https://drive.google.com/uc?export=download&id=1lrEE6lpSaxxMj-qqHdMdQ7HYIFR-joEJ' },
+        { name:'Marketing Strategy Worksheet', type:'pdf', url:'https://drive.google.com/uc?export=download&id=1JzNwIIfjjctp4Nw_5NgchL36dj8OYgwP' }
+      ]}
+    ]}
+  ];
+
+  const iconMap  = { pdf:'icon-pdf', xlsx:'icon-xlsx', xls:'icon-xlsx', docx:'icon-docx', doc:'icon-docx', html:'icon-html', link:'icon-link' };
+  const labelMap = { pdf:'PDF', xlsx:'XLS', xls:'XLS', docx:'DOC', doc:'DOC', html:'HTML', link:'LINK' };
+  let aM=0, aV=0, allDlMode=false;
+
+  function dlRow(d) {
+    const cls=iconMap[d.type]||'icon-docx', lbl=labelMap[d.type]||d.type.toUpperCase();
+    const btnLabel=d.type==='link'?'Open &nearr;':'Download';
+    return '<a class="download-item" href="'+d.url+'" target="_blank"><div class="dl-icon '+cls+'">'+lbl+'</div><span class="dl-name">'+d.name+'</span><button class="dl-btn">'+btnLabel+'</button></a>';
+  }
+
+  function build() {
+    const ml=document.getElementById('moduleList');
+    ml.innerHTML='';
+    modules.forEach(function(mod,mi) {
+      const block=document.createElement('div');
+      block.className='module-block';
+      const btn=document.createElement('button');
+      btn.className='module-btn'+(!allDlMode&&mi===aM?' active':'');
+      btn.innerHTML='<div><div class="module-num">'+mod.num+'</div><div class="module-label">'+mod.title+'</div></div><span class="module-chevron'+(!allDlMode&&mi===aM?' open':'')+'">&#9658;</span>';
+      btn.addEventListener('click', (function(i){ return function(){ toggleMod(i); }; })(mi));
+      const list=document.createElement('div');
+      list.className='video-list'+(!allDlMode&&mi===aM?' open':'');
+      mod.videos.forEach(function(v,vi) {
+        const vb=document.createElement('button');
+        vb.className='video-btn'+(!allDlMode&&mi===aM&&vi===aV?' active':'');
+        vb.innerHTML='<span class="video-dot"></span>'+v.title;
+        vb.addEventListener('click', (function(i,j){ return function(){ sel(i,j); }; })(mi,vi));
+        list.appendChild(vb);
+      });
+      block.appendChild(btn);
+      block.appendChild(list);
+      ml.appendChild(block);
+    });
+    document.getElementById('allDlBtn').className='all-dl-btn'+(allDlMode?' active':'');
+  }
+
+  function toggleMod(mi) { allDlMode=false; aM=mi; aV=0; build(); render(); }
+
+  function sel(mi,vi) {
+    allDlMode=false; aM=mi; aV=vi; build(); render();
+    if(window.innerWidth<=680) {
+      document.getElementById('sidebarInner').classList.remove('open');
+      document.getElementById('mobArrow').textContent='▾';
+    }
+  }
+
+  function render() {
+    const mod=modules[aM], vid=mod.videos[aV];
+    document.getElementById('vidTitle').textContent=vid.title;
+    document.getElementById('vidMeta').textContent=mod.num+' · '+mod.title;
+    document.getElementById('videoEmbed').style.display='';
+    document.getElementById('vidPlaceholder').style.display='none';
+    document.getElementById('vidFrame').innerHTML='<iframe src="https://drive.google.com/file/d/'+vid.driveId+'/preview" allowfullscreen allow="autoplay"></iframe>';
+    const dls=document.getElementById('dlSection'), dll=document.getElementById('dlList');
+    document.getElementById('dlHeading').textContent='Downloads for this lesson';
+    document.getElementById('dlSub').style.display='none';
+    if(vid.downloads&&vid.downloads.length) { dls.style.display='block'; dll.innerHTML=vid.downloads.map(dlRow).join(''); }
+    else { dls.style.display='none'; }
+  }
+
+  function showAllDownloads() {
+    allDlMode=true; build();
+    if(window.innerWidth<=680) {
+      document.getElementById('sidebarInner').classList.remove('open');
+      document.getElementById('mobArrow').textContent='▾';
+    }
+    document.getElementById('vidTitle').textContent='Full Resource Kit';
+    document.getElementById('vidMeta').textContent='Every downloadable from the course, organized by module';
+    document.getElementById('videoEmbed').style.display='none';
+    document.getElementById('dlHeading').textContent='All downloadables';
+    const sub=document.getElementById('dlSub');
+    sub.textContent='Every resource from the course, organized by module.';
+    sub.style.display='block';
+    document.getElementById('dlSection').style.display='block';
+    let html=''; const seen=new Set();
+    modules.forEach(function(mod) {
+      const modDls=[];
+      mod.videos.forEach(function(v) {
+        if(v.downloads) v.downloads.forEach(function(d) {
+          const key=d.name+'|'+d.url;
+          if(!seen.has(key)) { seen.add(key); modDls.push(d); }
+        });
+      });
+      if(modDls.length) { html+='<div class="module-group-label">'+mod.num+' — '+mod.title+'</div>'; html+=modDls.map(dlRow).join(''); }
+    });
+    document.getElementById('dlList').innerHTML=html;
+  }
+
+  function toggleMob() {
+    const si=document.getElementById('sidebarInner'), ar=document.getElementById('mobArrow');
+    si.classList.toggle('open');
+    ar.textContent=si.classList.contains('open')?'▴':'▾';
+  }
+
+  function onResize() {
+    const si=document.getElementById('sidebarInner'), mt=document.getElementById('mobToggle');
+    if(window.innerWidth>680) { si.style.display=''; si.classList.remove('open'); mt.style.display='none'; }
+    else { mt.style.display='flex'; }
+  }
+
+  document.getElementById('mobToggle').addEventListener('click', toggleMob);
+  document.getElementById('allDlBtn').addEventListener('click', showAllDownloads);
+  window.addEventListener('resize', onResize);
+  onResize();
+  build();
+  render();
+
+  }); // end DOMContentLoaded
+
+</script>
+</body>
+</html>
